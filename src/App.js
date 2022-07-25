@@ -2,6 +2,7 @@ import './App.css';
 import TopButtons from "./components/TopButtons";
 import UilReact from "@iconscout/react-unicons";
 import Inputs from "./components/Inputs";
+import TimeAndLocation from "./components/TimeAndLocation";
 
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
       to-blue-700 h-fit shadow-xl shadow-gray-400">
         <TopButtons/>
           <Inputs/>
+
+          <TimeAndLocation/>
       </div>
   );
 }
