@@ -1,4 +1,4 @@
-import {data} from "autoprefixer";
+
 import {DateTime} from "luxon";
 
 const API_KEY = 'e6a4ba4b1255a293f70dd039e13bd3b7';
@@ -6,13 +6,9 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 // https://api.openweathermap.org/data/2.5/onecall?lat=48.8534&lon=2.3488&exclude=current,minutely,hourly,alerts&appid=1fa9ff4126d95b8db54f3897a208e91c&units=metric
 const getWeatherData = (infoType, searchParams)=>{
     const url = new URL(BASE_URL + "/" + infoType);
-    url.search = new URLSearchParams({...searchParams, appid:API_KEY})
+    url.search = new URLSearchParams({...searchParams, appid:API_KEY});
 
-
-    console.log(url)
-    return fetch(url)
-        .then((res)=> res.json())
-        .then((data)=> data);
+    return fetch(url).then((res) => res.json());
 };
 const formatCurrentWeather = (data)=>{
     const {
@@ -41,7 +37,7 @@ const formatForecastWeather = (data) => {
     hourly = hourly.slice(1,6).map(d => {
         return{
             title: formatToLocalTime(d.dt,timezone,'hh:mm a'),
-            temp: d.temp.day,
+            temp: d.temp,
             icon:d.weather[0].icon
         }
     });
@@ -62,5 +58,9 @@ const getFormattedWeatherData = async (searchParams) => {
     return {...formattedCurrentWeather, ...formattedForecastWeather}
 };
 const formatToLocalTime = (secs,zone,format = "cccc, dd LLL yyyy' | Local time:'hh:mm a") =>
-    DateTime.fromSeconds(secs).setZone(zone).toFormat(format)
-export default getFormattedWeatherData
+    DateTime.fromSeconds(secs).setZone(zone).toFormat(format);
+
+const iconUrlFromCode = (code) => `http://openweathermap.org/img/wn/${code}@2x.png`;
+
+export default getFormattedWeatherData;
+export {formatToLocalTime, iconUrlFromCode};
